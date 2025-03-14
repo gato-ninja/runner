@@ -1,8 +1,18 @@
 name: Hello World
-on: [push]
+on: 
+  push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment'
+        required: true
+        default: 'production'
+        type: string
+
 jobs:
   Hello-World-Job:
-    runs-on:
+    runs-on: 
       - codebuild-gato-ninja-${{ github.run_id }}-${{ github.run_attempt }}
+    environment: ${{ github.event.inputs.environment }}
     steps:
-      - run: echo "Hello World!"
+      - run: echo "Hello World! $RANDOM"
